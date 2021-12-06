@@ -24,5 +24,5 @@
     Alkalmazandó technológia: REST API
     A projekthez készüljön Trello tábla és GitHub repo
 
-Az elkészítés határideje: **2022. január 23**.
-A projekt bemutatása órán, **2022. január 24**-ei héten történik.
+ * Az elkészítés határideje: **2022. január 23**.
+ * A projekt bemutatása órán, **2022. január 24**-ei héten történik.
