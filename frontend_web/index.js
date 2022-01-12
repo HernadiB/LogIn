@@ -11,7 +11,10 @@ function Page()
     FoglalasKeresesByUserID();
     IdopontFelvetel();
     IdopontTorles();
+    fetchGetAllUsers();
+    fetchGetAllFoglalas();
 }
+
 function Container()
 {
     document.body.appendChild(container);
@@ -20,7 +23,6 @@ function Container()
     h1.innerText = "Admin felület";
     h1.classList.add("text-center")
     container.appendChild(h1);
-
 }
 
 function OsszesFelhasznalo()
@@ -40,6 +42,7 @@ function OsszesFelhasznalo()
     table.appendChild(tr);
     container.appendChild(table);
 }
+
 function FelhasznaloTorleseByID()
 {
     let h3 = document.createElement("h3");
@@ -72,6 +75,7 @@ function LefoglaltIdopontok()
     h3.innerText = "Lefoglalt időpontok";
     container.appendChild(h3);
     let table = document.createElement("table");
+    table.id = "LefoglaltIdopontokTable";
     table.classList.add("table", "table-striped");
     let tr = document.createElement("tr");
     let th1 = document.createElement("th");
@@ -108,7 +112,8 @@ function FoglalasTorleseByID()
     input.setAttribute("placeholder", "10");
     let button = document.createElement("button");
     button.setAttribute("type", "submit");
-    button.setAttribute("onclick", "FUNCTION");
+    button.setAttribute("onclick", "DeleteUserByID()");
+    button.onclick = "DeleteFoglalasByID()";
     button.classList.add("btn", "btn-primary", "mt-2", "mb-2");
     button.innerText = "Küldés";
     formgroup.append(input, button);
@@ -119,8 +124,29 @@ function FoglalasTorleseByID()
 function FoglalasKeresesByUserID()
 {
     let h3 = document.createElement("h3");
-    h3.innerText = "Foglalás keresése User ID alapján";
+    h3.innerText = "Foglalás keresése Felhasználó ID alapján";
     container.appendChild(h3);
+    let table = document.createElement("table");
+    table.id = "FoglalasKeresesByUserIDTable";
+    table.classList.add("table", "table-striped", "d-none");
+    let tr = document.createElement("tr");
+    let th1 = document.createElement("th");
+    th1.innerText = "Foglalás ID";
+    tr.appendChild(th1);
+    let th2 = document.createElement("th");
+    th2.innerText = "Felhasználó ID";
+    tr.appendChild(th2);
+    let th3 = document.createElement("th");
+    th3.innerText = "Felhasználó neve";
+    tr.appendChild(th3);
+    let th4 = document.createElement("th");
+    th4.innerText = "Foglalás kezdete";
+    tr.appendChild(th4);
+    let th5 = document.createElement("th");
+    th5.innerText = "Foglalás vége";
+    tr.appendChild(th5);
+    table.appendChild(tr);
+    container.appendChild(table);
     let form = document.createElement("form");
     form.setAttribute("method", "post");
     form.name = "FoglalasKeresesByUserIDForm";
@@ -134,30 +160,14 @@ function FoglalasKeresesByUserID()
     input.setAttribute("placeholder", "15");
     let button = document.createElement("button");
     button.setAttribute("type", "submit");
-    button.setAttribute("onclick", "FUNCTION");
+    button.onclick = fetchGetFoglalasByUserID;
     button.classList.add("btn", "btn-primary", "mt-2", "mb-2");
     button.innerText = "Küldés";
     formgroup.append(input, button);
     form.appendChild(formgroup);
     container.appendChild(form);
-    let table = document.createElement("table");
-    table.classList.add("table", "table-striped", "d-none");
-    let tr = document.createElement("tr");
-    let th1 = document.createElement("th");
-    th1.innerText = "Foglalás ID";
-    tr.appendChild(th1);
-    let th2 = document.createElement("th");
-    th2.innerText = "Felhasználó neve";
-    tr.appendChild(th2);
-    let th3 = document.createElement("th");
-    th3.innerText = "Foglalás kezdete";
-    tr.appendChild(th3);
-    let th4 = document.createElement("th");
-    th4.innerText = "Foglalás vége";
-    tr.appendChild(th4);
-    table.appendChild(tr);
-    container.appendChild(table);
 }
+
 function IdopontFelvetel()
 {
     let h3 = document.createElement("h3");
@@ -333,7 +343,6 @@ function IdopontTorles()
 }
 
 
-
 // function func1()
 // {
 //     let a = document.forms["form1"]["label1"].value;
@@ -368,4 +377,137 @@ function IdopontTorles()
 // }
 
 
+async function fetchGetAllFoglalas(){
+    let response = await fetch('http://localhost:8881/api/admin/foglalas');
+    let data = await response.json();
+    let table = document.querySelector("table#LefoglaltIdopontokTable");
+    data.forEach(item => {
+        let tr = document.createElement("tr");
+        let td1 = document.createElement("td");
+        let td2 = document.createElement("td");
+        let td3 = document.createElement("td");
+        let td4 = document.createElement("td");
+        td1.innerText = item.ID;
+        td2.innerText = item.Username;
+        td3.innerText = item.From;
+        td4.innerText = item.To;
+        tr.append(td1, td2, td3, td4);
+        table.append(tr);
+    });
+}
 
+async function fetchGetFoglalasByUserID(){ //konzolban mukodik, onclicken nem
+    let userID = document.querySelector("input#FoglalasKereses").value;
+    let response = await fetch(`http://localhost:8881/api/admin/foglalas/${userID}`);
+    let data = await response.json();
+    let table = document.querySelector("table#FoglalasKeresesByUserIDTable");
+    table.classList.remove("d-none");
+    let tr = document.createElement("tr");
+    let td1 = document.createElement("td");
+    let td2 = document.createElement("td");
+    let td3 = document.createElement("td");
+    let td4 = document.createElement("td");
+    let td5 = document.createElement("td");
+    td1.innerText = data.Foglalas_ID;
+    td2.innerText = data.User_ID;
+    td3.innerText = data.Username;
+    td4.innerText = data.From;
+    td5.innerText = data.To;
+    tr.append(td1, td2, td3, td4, td5);
+    table.appendChild(tr);
+}
+
+async function fetchGetAllUsers(){
+    let response = await fetch('http://localhost:8881/api/admin/users');
+    let data = await response.json();
+    let table = document.querySelector("table#OsszesFelhasznaloTable");
+    data.forEach(item => {
+        let tr = document.createElement("tr");
+        let td1 = document.createElement("td");
+        let td2 = document.createElement("td");
+        td1.innerText = item.ID;
+        td2.innerText = item.Username;
+        tr.append(td1, td2);
+        table.appendChild(tr);
+    });
+}
+
+function DeleteUserByID() //konzolban mukodik, onclicken nem
+{
+    let userID = document.querySelector("input#DeleteUser").value;
+    fetch(`http://localhost:8881/api/admin/users/${userID}`, {
+        method: "DELETE",
+        headers: {
+            "Content-type": "application/json",
+        }
+    }).then((res) => res.json())
+    .then((data) => console.log(data))
+    .catch((err) => console.log(err))
+}
+
+function DeleteFoglalasByID() //konzolban mukodik, onclicken nem
+{
+    let foglalasID = document.querySelector("input#DeleteFoglalas").value;
+    fetch(`http://localhost:8881/api/admin/foglalas/${foglalasID}`, {
+        method: "DELETE",
+        headers: {
+            "Content-type": "application/json",
+        }
+    }).then((res) => res.json())
+    .then((data) => console.log(data))
+    .catch((err) => console.log(err))
+}
+
+function DeleteIdopont() //CORS NEEDED
+{
+    let year = document.querySelector("input#IdopontTorlesInput1").value;
+    let month = document.querySelector("input#IdopontTorlesInput2").value;
+    let day = document.querySelector("input#IdopontTorlesInput3").value;
+    let from = document.querySelector("input#IdopontTorlesInput4").value;
+    let to = document.querySelector("input#IdopontTorlesInput5").value;
+    let datetimefrom = year.concat("-", month, "-", day, " ", from, ":00:00");
+    let datetimeto = year.concat("-", month, "-", day, " ", to, ":00:00");
+    let array = new Array();
+    array.push(datetimefrom);
+    array.push(datetimeto);
+    fetch('http://localhost:8881/api/admin/idopont', {
+        mode: "cors",
+        method: "DELETE",
+        headers: {
+            "Content-type": "application/json",
+        },
+        body: JSON.stringify(array)
+    }).then((res) => res.json())
+    .then((data) => console.log(data))
+    .catch((err) => console.log(err))
+}
+
+function AddIdopont() //CORS NEEDED
+{
+    let year = document.querySelector("input#IdopontFelvetelInput1").value;
+    let month = document.querySelector("input#IdopontFelvetelInput2").value;
+    let day = document.querySelector("input#IdopontFelvetelInput3").value;
+    let from = document.querySelector("input#IdopontFelvetelInput4").value;
+    let to = document.querySelector("input#IdopontFelvetelInput5").value;
+    let datetimefrom = year.concat("-", month, "-", day, " ", from, ":00:00");
+    let datetimeto = year.concat("-", month, "-", day, " ", to, ":00:00");
+    let array = new Array();
+    array.push(datetimefrom);
+    array.push(datetimeto);
+    fetch('http://localhost:8881/api/admin/idopont', {
+        mode: "cors",
+        method: "POST",
+        headers: {
+            "Content-type": "application/json",
+            'Access-Control-Allow-Origin':'*'
+        },
+        body: JSON.stringify(array)
+    }).then((res) => res.json())
+    .then((data) => console.log(data))
+    .catch((err) => console.log(err))
+}
+
+function AdminRegistration() //CORS NEEDED
+{
+
+}
