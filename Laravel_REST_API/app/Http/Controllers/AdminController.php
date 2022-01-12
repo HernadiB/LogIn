@@ -91,7 +91,7 @@ class AdminController extends Controller
         dd($request);
         $idopont = new Idopont;
         $idopont->from = $request[0];
-        $idopont->to = $request[0];
+        $idopont->to = $request[1];
         $idopont->save();
     }
 }

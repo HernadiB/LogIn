@@ -61,7 +61,7 @@ function FelhasznaloTorleseByID()
     input.setAttribute("placeholder", "5");
     let button = document.createElement("button");
     button.setAttribute("type", "submit");
-    button.setAttribute("onclick", "FUNCTION");
+    button.onclick = DeleteUserByID;
     button.classList.add("btn", "btn-primary", "mt-2", "mb-2");
     button.innerText = "Küldés";
     formgroup.append(input, button);
@@ -72,7 +72,7 @@ function FelhasznaloTorleseByID()
 function LefoglaltIdopontok()
 {
     let h3 = document.createElement("h3");
-    h3.innerText = "Lefoglalt időpontok";
+    h3.innerText = "Összes foglalás";
     container.appendChild(h3);
     let table = document.createElement("table");
     table.id = "LefoglaltIdopontokTable";
@@ -112,8 +112,7 @@ function FoglalasTorleseByID()
     input.setAttribute("placeholder", "10");
     let button = document.createElement("button");
     button.setAttribute("type", "submit");
-    button.setAttribute("onclick", "DeleteUserByID()");
-    button.onclick = "DeleteFoglalasByID()";
+    button.onclick = DeleteFoglalasByID;
     button.classList.add("btn", "btn-primary", "mt-2", "mb-2");
     button.innerText = "Küldés";
     formgroup.append(input, button);
@@ -250,7 +249,7 @@ function IdopontFelvetel()
     button.setAttribute("type", "submit");
     button.classList.add("btn", "btn-primary", "mb-2");
     button.innerText = "Küldés";
-    button.setAttribute("onclick", "func1()");
+    button.onclick = AddIdopont;
     form.appendChild(button);
     container.appendChild(form);
 }
@@ -337,7 +336,7 @@ function IdopontTorles()
     button.setAttribute("type", "submit");
     button.classList.add("btn", "btn-primary", "mb-2");
     button.innerText = "Küldés";
-    button.setAttribute("onclick", "func1()");
+    button.onclick = DeleteIdopont;
     form.appendChild(button);
     container.appendChild(form);
 }
@@ -396,7 +395,8 @@ async function fetchGetAllFoglalas(){
     });
 }
 
-async function fetchGetFoglalasByUserID(){ //konzolban mukodik, onclicken nem
+async function fetchGetFoglalasByUserID(event){
+    event.preventDefault();
     let userID = document.querySelector("input#FoglalasKereses").value;
     let response = await fetch(`http://localhost:8881/api/admin/foglalas/${userID}`);
     let data = await response.json();
@@ -432,8 +432,9 @@ async function fetchGetAllUsers(){
     });
 }
 
-function DeleteUserByID() //konzolban mukodik, onclicken nem
+function DeleteUserByID(event)
 {
+    event.preventDefault();
     let userID = document.querySelector("input#DeleteUser").value;
     fetch(`http://localhost:8881/api/admin/users/${userID}`, {
         method: "DELETE",
@@ -445,8 +446,9 @@ function DeleteUserByID() //konzolban mukodik, onclicken nem
     .catch((err) => console.log(err))
 }
 
-function DeleteFoglalasByID() //konzolban mukodik, onclicken nem
+function DeleteFoglalasByID(event)
 {
+    event.preventDefault();
     let foglalasID = document.querySelector("input#DeleteFoglalas").value;
     fetch(`http://localhost:8881/api/admin/foglalas/${foglalasID}`, {
         method: "DELETE",
@@ -458,8 +460,9 @@ function DeleteFoglalasByID() //konzolban mukodik, onclicken nem
     .catch((err) => console.log(err))
 }
 
-function DeleteIdopont() //CORS NEEDED
+function DeleteIdopont(event) //CORS NEEDED
 {
+    event.preventDefault();
     let year = document.querySelector("input#IdopontTorlesInput1").value;
     let month = document.querySelector("input#IdopontTorlesInput2").value;
     let day = document.querySelector("input#IdopontTorlesInput3").value;
@@ -482,8 +485,9 @@ function DeleteIdopont() //CORS NEEDED
     .catch((err) => console.log(err))
 }
 
-function AddIdopont() //CORS NEEDED
+function AddIdopont(event) //CORS NEEDED
 {
+    event.preventDefault();
     let year = document.querySelector("input#IdopontFelvetelInput1").value;
     let month = document.querySelector("input#IdopontFelvetelInput2").value;
     let day = document.querySelector("input#IdopontFelvetelInput3").value;
@@ -499,7 +503,6 @@ function AddIdopont() //CORS NEEDED
         method: "POST",
         headers: {
             "Content-type": "application/json",
-            'Access-Control-Allow-Origin':'*'
         },
         body: JSON.stringify(array)
     }).then((res) => res.json())
