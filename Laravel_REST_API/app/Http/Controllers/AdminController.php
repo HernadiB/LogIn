@@ -40,7 +40,11 @@ class AdminController extends Controller
         $idopontid = $foglalas_array["IdopontID"];
         $idopontok = Idopont::all();
         $idopont = $idopontok[$idopontid-1];
-        $result = $user_array->toarray() + $idopont->toarray();
+        $result["Foglalas_ID"] = $foglalas_array["ID"];
+        $result["User_ID"] = $user_array["ID"];
+        $result["Username"] = $user_array["Username"];
+        $result["From"] = $idopont["From"];
+        $result["To"] = $idopont["To"];
         $resultjson = json_encode($result);
         return $resultjson;
     }
@@ -64,25 +68,30 @@ class AdminController extends Controller
         $foglalas = Foglalas::where("ID", $foglalasID);
         $foglalas->delete();
     }
-    public function DeleteIdopontByID($idopontID)
-    {
-        $idopont = Idopont::where("ID", $idopontID);
-        $idopont->delete();
-    }
     public function DeleteUserByID($userID)
     {
         $foglalas = Foglalas::where("UserID", $userID);
         $foglalas->delete();
         $user = UserModel::where("ID", $userID);
         $user->delete();
+        
     }
-    public function ModifyFoglalasByID($foglalasID, Request $request)
+    public function DeleteIdopont(Request $request)
     {
-        // Not neccessary
-        // foglalasID alapjan valtoztatja az idopontID-t es az userID-t
+        dd($request);
+        $data = json_decode($request);
+        $idopontfrom = $data[0];
+        $idopontto = $data[1];
+        $idopontok = Idopont::all();
+        $idopont = $idopontok->where("From", $idopontfrom)->where("To", $idopontto);
+        $idopont->delete();
     }
     public function AddIdopont(Request $request)
     {
-        // Hozzaad uj idopontot (From, To)
+        dd($request);
+        $idopont = new Idopont;
+        $idopont->from = $request[0];
+        $idopont->to = $request[0];
+        $idopont->save();
     }
 }

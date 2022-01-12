@@ -20,11 +20,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 Route::get("/admin/foglalas", [AdminController::class, "GetAllFoglalas"]);
 Route::get("/admin/foglalas/{id}", [AdminController::class, "GetFoglalasByUserID"]);
-Route::put("/admin/foglalas/{id}", [AdminController::class, "ModifyFoglalasByID"]);
 Route::delete("/admin/foglalas/{id}", [AdminController::class, "DeleteFoglalasByID"]);
 
 Route::post("/admin/idopont", [AdminController::class, "AddIdopont"]);
-Route::delete("/admin/idopont/{id}", [AdminController::class, "DeleteIdopontByID"]);
+Route::delete("/admin/idopont", [AdminController::class, "DeleteIdopont"]);
 
 Route::get("/admin/users", [AdminController::class, "GetAllUsers"]);
 Route::delete("/admin/users/{id}", [AdminController::class, "DeleteUserByID"]);
