@@ -78,17 +78,11 @@ class AdminController extends Controller
     }
     public function DeleteIdopont(Request $request)
     {
-        dd($request);
-        $data = json_decode($request);
-        $idopontfrom = $data[0];
-        $idopontto = $data[1];
-        $idopontok = Idopont::all();
-        $idopont = $idopontok->where("From", $idopontfrom)->where("To", $idopontto);
+        $idopont = Idopont::where("From", $request[0])->where("To", $request[1]);
         $idopont->delete();
     }
     public function AddIdopont(Request $request)
     {
-        dd($request);
         $idopont = new Idopont;
         $idopont->from = $request[0];
         $idopont->to = $request[1];

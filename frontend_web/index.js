@@ -460,7 +460,7 @@ function DeleteFoglalasByID(event)
     .catch((err) => console.log(err))
 }
 
-function DeleteIdopont(event) //CORS NEEDED
+function DeleteIdopont(event)
 {
     event.preventDefault();
     let year = document.querySelector("input#IdopontTorlesInput1").value;
@@ -474,7 +474,6 @@ function DeleteIdopont(event) //CORS NEEDED
     array.push(datetimefrom);
     array.push(datetimeto);
     fetch('http://localhost:8881/api/admin/idopont', {
-        mode: "cors",
         method: "DELETE",
         headers: {
             "Content-type": "application/json",
@@ -485,7 +484,7 @@ function DeleteIdopont(event) //CORS NEEDED
     .catch((err) => console.log(err))
 }
 
-function AddIdopont(event) //CORS NEEDED
+function AddIdopont(event)
 {
     event.preventDefault();
     let year = document.querySelector("input#IdopontFelvetelInput1").value;
@@ -499,7 +498,6 @@ function AddIdopont(event) //CORS NEEDED
     array.push(datetimefrom);
     array.push(datetimeto);
     fetch('http://localhost:8881/api/admin/idopont', {
-        mode: "cors",
         method: "POST",
         headers: {
             "Content-type": "application/json",
@@ -510,7 +508,7 @@ function AddIdopont(event) //CORS NEEDED
     .catch((err) => console.log(err))
 }
 
-function AdminRegistration() //CORS NEEDED
+function AdminRegistration()
 {
 
 }
