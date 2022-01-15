@@ -27,3 +27,5 @@ Route::delete("/admin/idopont", [AdminController::class, "DeleteIdopont"]);
 
 Route::get("/admin/users", [AdminController::class, "GetAllUsers"]);
 Route::delete("/admin/users/{id}", [AdminController::class, "DeleteUserByID"]);
+
+Route::post("/admin/registration", [AdminController::class, "AdminRegistration"]);

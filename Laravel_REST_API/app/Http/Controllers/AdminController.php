@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Foglalas;
 use App\Models\UserModel;
 use App\Models\Idopont;
+use App\Models\Admin;
 
 class AdminController extends Controller
 {
@@ -87,5 +88,12 @@ class AdminController extends Controller
         $idopont->from = $request[0];
         $idopont->to = $request[1];
         $idopont->save();
+    }
+    public function AdminRegistration(Request $request)
+    {
+        $admin = new Admin;
+        $admin->Username = $request[0];
+        $admin->Password = $request[1];
+        $admin->save();
     }
 }
