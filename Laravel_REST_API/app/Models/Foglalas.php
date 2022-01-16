@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\UserModel;
+use App\Models\User;
 use App\Models\Idopont;
 
 class Foglalas extends Model
@@ -12,7 +12,7 @@ class Foglalas extends Model
     protected $table = "foglalasok";
     public function User()
     {
-        return $this->hasOne(UserModel::class, "ID", "UserID");
+        return $this->hasOne(User::class, "id", "UserID");
     }
     public function Idopont()
     {

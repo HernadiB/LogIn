@@ -16,7 +16,9 @@
             <h2 class="form-title" id="signup">Regisztráció</h2>
             <div class="form-holder">
                 <input type="text" class="input" id="registrationname" placeholder="Felhasználónév" />
+                <input type="email" class="input" id="registrationemail" placeholder="Email" />
                 <input type="password" class="input" id="registrationpw" placeholder="Jelszó" />
+                <input type="password" class="input" id="registrationpwconf" placeholder="Jelszó megerősítése" />
             </div>
             <button class="submit-btn" onclick="Registration()">Regisztráció</button>
         </div>
@@ -24,10 +26,10 @@
             <div class="center">
                 <h2 class="form-title" id="login">Bejelentkezés</h2>
                 <div class="form-holder">
-                    <input type="text" class="input" placeholder="Felhasználónév" />
-                    <input type="password" class="input" placeholder="Jelszó" />
+                    <input type="email" class="input" id="loginemail" placeholder="Email" />
+                    <input type="password" class="input" id="loginpw" placeholder="Jelszó" />
                 </div>
-                <button class="submit-btn">Bejelentkezés</button>
+                <button class="submit-btn" onclick="Login()">Bejelentkezés</button>
             </div>
         </div>
     </div>

@@ -3,6 +3,7 @@ Page();
 
 function Page()
 {
+    AccessToken();
     Container();
     OsszesFelhasznalo();
     FelhasznaloTorleseByID();
@@ -11,8 +12,17 @@ function Page()
     FoglalasKeresesByUserID();
     IdopontFelvetel();
     IdopontTorles();
+    LogoutButton();
     fetchGetAllUsers();
     fetchGetAllFoglalas();
+}
+
+function AccessToken()
+{
+    if (!("access_token" in localStorage))
+    {
+        window.location.replace("login.html");
+    }
 }
 
 function Container()
@@ -36,9 +46,11 @@ function OsszesFelhasznalo()
     let tr = document.createElement("tr");
     let th1 = document.createElement("th");
     let th2 = document.createElement("th");
+    let th3 = document.createElement("th");
     th1.innerText = "Felhasználó ID";
     th2.innerText = "Felhasználó neve";
-    tr.append(th1, th2);
+    th3.innerText = "Felhasználó e-mail címe";
+    tr.append(th1, th2, th3);
     table.appendChild(tr);
     container.appendChild(table);
 }
@@ -200,7 +212,7 @@ function IdopontFelvetel()
     input2.classList.add("form-control");
     input2.id = "IdopontFelvetelInput2";
     input2.name = "IdopontFelvetelInput2";
-    input2.setAttribute("placeholder", "1");
+    input2.setAttribute("placeholder", "02");
     formgroup2.appendChild(input2);
     form.appendChild(formgroup2);
     let formgroup3 = document.createElement("div");
@@ -214,7 +226,7 @@ function IdopontFelvetel()
     input3.classList.add("form-control");
     input3.id = "IdopontFelvetelInput3";
     input3.name = "IdopontFelvetelInput3";
-    input3.setAttribute("placeholder", "12");
+    input3.setAttribute("placeholder", "05");
     formgroup3.appendChild(input3);
     form.appendChild(formgroup3);
     let formgroup4 = document.createElement("div");
@@ -228,7 +240,7 @@ function IdopontFelvetel()
     input4.classList.add("form-control");
     input4.id = "IdopontFelvetelInput4";
     input4.name = "IdopontFelvetelInput4";
-    input4.setAttribute("placeholder", "6");
+    input4.setAttribute("placeholder", "16");
     formgroup4.appendChild(input4);
     form.appendChild(formgroup4);
     let formgroup5 = document.createElement("div");
@@ -242,7 +254,7 @@ function IdopontFelvetel()
     input5.classList.add("form-control");
     input5.id = "IdopontFelvetelInput5";
     input5.name = "IdopontFelvetelInput5";
-    input5.setAttribute("placeholder", "7");
+    input5.setAttribute("placeholder", "17");
     formgroup5.appendChild(input5);
     form.appendChild(formgroup5);
     let button = document.createElement("button");
@@ -287,7 +299,7 @@ function IdopontTorles()
     input2.classList.add("form-control");
     input2.id = "IdopontTorlesInput2";
     input2.name = "IdopontTorlesInput2";
-    input2.setAttribute("placeholder", "1");
+    input2.setAttribute("placeholder", "01");
     formgroup2.appendChild(input2);
     form.appendChild(formgroup2);
     let formgroup3 = document.createElement("div");
@@ -341,6 +353,27 @@ function IdopontTorles()
     container.appendChild(form);
 }
 
+function LogoutButton()
+{
+    let col = document.createElement("div");
+    col.classList.add("mx-auto", "col-1", "mt-3", "mb-3");
+    let button = document.createElement("button");
+    button.classList.add("btn", "btn-danger");
+    button.innerText = "Kijelentkezés";
+    button.onclick = AdminLogout;
+    col.appendChild(button);
+    container.appendChild(col);
+}
+
+function AdminLogout()
+{
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("admin_id");
+    localStorage.removeItem("admin_name");
+    localStorage.removeItem("admin_email");
+    localStorage.removeItem("admin_is_admin");
+    window.location.replace("login.html");
+}
 
 // function func1()
 // {
@@ -425,9 +458,11 @@ async function fetchGetAllUsers(){
         let tr = document.createElement("tr");
         let td1 = document.createElement("td");
         let td2 = document.createElement("td");
+        let td3 = document.createElement("td");
         td1.innerText = item.ID;
         td2.innerText = item.Username;
-        tr.append(td1, td2);
+        td3.innerText = item.Email;
+        tr.append(td1, td2, td3);
         table.appendChild(tr);
     });
 }
@@ -440,6 +475,7 @@ function DeleteUserByID(event)
         method: "DELETE",
         headers: {
             "Content-type": "application/json",
+            // "Authorization": "Bearer " + localStorage.getItem("access_token")
         }
     }).then((res) => res.json())
     .then((data) => console.log(data))
@@ -454,6 +490,7 @@ function DeleteFoglalasByID(event)
         method: "DELETE",
         headers: {
             "Content-type": "application/json",
+            // "Authorization": "Bearer " + localStorage.getItem("access_token")
         }
     }).then((res) => res.json())
     .then((data) => console.log(data))
@@ -477,6 +514,7 @@ function DeleteIdopont(event)
         method: "DELETE",
         headers: {
             "Content-type": "application/json",
+            // "Authorization": "Bearer " + localStorage.getItem("access_token")
         },
         body: JSON.stringify(array)
     }).then((res) => res.json())
@@ -492,6 +530,11 @@ function AddIdopont(event)
     let day = document.querySelector("input#IdopontFelvetelInput3").value;
     let from = document.querySelector("input#IdopontFelvetelInput4").value;
     let to = document.querySelector("input#IdopontFelvetelInput5").value;
+    if (to-from != 1)
+    {
+        alert("Csak 1 órás intervallumot adhatsz meg!");
+        return;
+    }
     let datetimefrom = year.concat("-", month, "-", day, " ", from, ":00:00");
     let datetimeto = year.concat("-", month, "-", day, " ", to, ":00:00");
     let array = new Array();
@@ -501,14 +544,10 @@ function AddIdopont(event)
         method: "POST",
         headers: {
             "Content-type": "application/json",
+            // "Authorization": "Bearer " + localStorage.getItem("access_token")
         },
         body: JSON.stringify(array)
     }).then((res) => res.json())
     .then((data) => console.log(data))
     .catch((err) => console.log(err))
-}
-
-function AdminRegistration()
-{
-
 }

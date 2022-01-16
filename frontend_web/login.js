@@ -4,25 +4,78 @@ if (document.location.search.match(/type=embed/gi)) {
     window.parent.postMessage("resize", "*");
 }
 
+if ("access_token" in localStorage)
+{
+    window.location.replace("index.html");
+}
+
 function Registration()
 {
     let username = document.querySelector("input#registrationname").value;
+    let email = document.querySelector("input#registrationemail").value;
     let password = document.querySelector("input#registrationpw").value;
-    let array = new Array();
-    array.push(username, password);
-    console.log(JSON.stringify(array));
+    let password_conf = document.querySelector("input#registrationpwconf").value;
+    let map = new Map();
+    map["name"] = username;
+    map["email"] = email;
+    map["password"] = password;
+    map["password_confirmation"] = password_conf;
+    map["is_admin"] = true;
+    console.log(JSON.stringify(map));
     fetch('http://localhost:8881/api/admin/registration', {
         method: "POST",
         headers: {
-            "Content-type": "application/json",
+            "Content-type": "application/json"
         },
-        body: JSON.stringify(array)
-    }).then((res) => res.json())
-    .then((data) => console.log(data))
-    .catch((err) => console.log(err))
+        body: JSON.stringify(map)
+    }).then((response) => response.json())
+    .then((data) => {
+        // console.log(data);
+        localStorage.setItem("access_token", data.access_token);
+        localStorage.setItem("admin_id", data.user.id);
+        localStorage.setItem("admin_name", data.user.name);
+        localStorage.setItem("admin_email", data.user.email);
+        localStorage.setItem("admin_is_admin", data.user.is_admin);
+        window.location.replace("index.html");
+    })
+    .catch((err) => {
+        console.log(err);
+        alert("Valami nem jó! :(");
+    })
+    
 }
 
 function Login()
 {
-
+    let email = document.querySelector("input#loginemail").value;
+    let password = document.querySelector("input#loginpw").value;
+    let map = new Map();
+    map["email"] = email;
+    map["password"] = password;
+    console.log(JSON.stringify(map));
+    fetch('http://localhost:8881/api/admin/login', {
+        method: "POST",
+        headers: {
+            "Content-type": "application/json"
+        },
+        body: JSON.stringify(map)
+    }).then((response) => response.json())
+    .then((data) => {
+        console.log(data);
+        if (!(data["message"] === undefined))
+        {
+            alert(data["message"]);
+            return;
+        }
+        localStorage.setItem("access_token", data.access_token);
+        localStorage.setItem("admin_id", data.user.id);
+        localStorage.setItem("admin_name", data.user.name);
+        localStorage.setItem("admin_email", data.user.email);
+        localStorage.setItem("admin_is_admin", data.user.is_admin);
+        window.location.replace("index.html");
+    })
+    .catch((err) => {
+        console.log(err);
+    })
 }
+
