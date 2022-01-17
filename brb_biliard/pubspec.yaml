@@ -30,12 +30,23 @@ dependencies:
   flutter:
     sdk: flutter
   get: ^4.1.4
+  http: ^0.12.0+1
+  share: ^2.0.4
+  fluttertoast: ^8.0.8
+  avatar_glow: ^0.1.0
+  bottom_navy_bar: ^3.0.0
+  shared_preferences: ^0.5.12+4
+  flutter_icons: ^1.1.0
+  intl: ^0.16.1
+  google_fonts: ^1.1.2
+  flutter_svg: ^0.20.0-nullsafety.3
+  flutter_custom_clippers: ^1.1.2
+  simple_location_picker: ^0.0.3
+  lottie: ^0.7.0+1
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
-  # table_calendar: ^1.0.0
-  # intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:
@@ -47,7 +58,7 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
 
-  # flutter_lints: ^1.0.0
+  flutter_lints: ^1.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
