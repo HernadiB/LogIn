@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:brb_biliard/singupScreen.dart';
 import 'package:brb_biliard/widget/inputTextWidget.dart';
+import 'package:brb_biliard/fooldal.dart';
 
 class LoginScreen extends StatefulWidget {
   LoginScreen() : super();
@@ -72,8 +73,11 @@ class _SearchScreenState extends State<LoginScreen> {
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
                       print("Sikeres bejelentkezés");
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => FooldalPage()));
                     }
-                    //Get.to(ChoiceScreen());
                   },
                   style: ElevatedButton.styleFrom(
                     primary: Colors.white,
@@ -174,11 +178,11 @@ class _SearchScreenState extends State<LoginScreen> {
                       color: Colors.grey[600], fontWeight: FontWeight.bold),
                 ),
                 Material(
-                     child: InkWell(
-                   onTap: () {
-                     print("Regisztráció");
-                     Get.to(SignUpScreen());
-                   },
+                    child: InkWell(
+                  onTap: () {
+                    print("Regisztráció");
+                    Get.to(SignUpScreen());
+                  },
                   child: Text(
                     " Regisztráció",
                     style: TextStyle(
