@@ -1,24 +1,3 @@
-// import 'package:flutter/material.dart';
-// import 'login_signup.dart';
-// import 'package:brb_biliard/screen/login_signup.dart';
-
-// void main() {
-//   runApp(const LoginSignupUI());
-// }
-
-// class LoginSignupUI extends StatelessWidget {
-//   const LoginSignupUI({Key? key}) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return const MaterialApp(
-//       debugShowCheckedModeBanner: false,
-//       title: "Login Signup UI",
-//       home: LoginSignupScreen(),
-//     );
-//   }
-// }
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:brb_biliard/loginScreen.dart';
@@ -32,7 +11,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'Flutter Demo',
+      title: 'BRB biliárd',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
