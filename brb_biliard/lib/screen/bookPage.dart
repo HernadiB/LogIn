@@ -9,15 +9,6 @@ class bookPage extends StatelessWidget {
         appBar: AppBar(
           title: Text("Időpont foglalás"),
           backgroundColor: const Color(0xffCE5D34),
-          actions: <Widget>[
-            IconButton(
-                icon: Icon(Icons.cancel),
-                onPressed: () {
-                  Navigator.of(context).push(new MaterialPageRoute(
-                    builder: (BuildContext context) => new LoginScreen(),
-                  ));
-                })
-          ],
         ),
         drawer: NavDrawer(),
         body: Center(child: Text("Ez itt az időpont foglalás oldal")));
