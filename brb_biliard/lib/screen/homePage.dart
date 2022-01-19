@@ -14,15 +14,6 @@ class _FooldalPage extends State<FooldalPage> {
       appBar: AppBar(
         title: Text("BRB biliárd főoldal"),
         backgroundColor: const Color(0xffCE5D34),
-        actions: <Widget>[
-          IconButton(
-              icon: Icon(Icons.cancel),
-              onPressed: () {
-                Navigator.of(context).push(new MaterialPageRoute(
-                  builder: (BuildContext context) => new LoginScreen(),
-                ));
-              })
-        ],
       ),
       body: Center(child: Container()),
       drawer: NavDrawer(),
