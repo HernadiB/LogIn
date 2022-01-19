@@ -2,6 +2,7 @@ import 'package:brb_biliard/screen/bookPage.dart';
 import 'package:brb_biliard/screen/contactPage.dart';
 import 'package:brb_biliard/screen/homePage.dart';
 import 'package:brb_biliard/screen/gyikPage.dart';
+import 'package:brb_biliard/screen/loginScreen.dart';
 import 'package:brb_biliard/screen/profilePage.dart';
 import 'package:flutter/material.dart';
 
@@ -29,7 +30,7 @@ class NavDrawer extends StatelessWidget {
                   Expanded(
                     flex: 6,
                     child: Text(
-                      "Lorem ipsum",
+                      "Felhasználónév",
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 16,
@@ -50,7 +51,7 @@ class NavDrawer extends StatelessWidget {
             ),
             onTap: () {
               Navigator.of(context).pop();
-              Navigator.of(context).push(MaterialPageRoute(
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
                   builder: (BuildContext context) => FooldalPage()));
             },
           ),
@@ -67,7 +68,7 @@ class NavDrawer extends StatelessWidget {
             ),
             onTap: () {
               Navigator.of(context).pop();
-              Navigator.of(context).push(MaterialPageRoute(
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
                   builder: (BuildContext context) => bookPage()));
             },
           ),
@@ -82,7 +83,7 @@ class NavDrawer extends StatelessWidget {
             ),
             onTap: () {
               Navigator.of(context).pop();
-              Navigator.of(context).push(MaterialPageRoute(
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
                   builder: (BuildContext context) => profilePage()));
             },
           ),
@@ -90,14 +91,14 @@ class NavDrawer extends StatelessWidget {
             color: Colors.grey,
           ),
           ListTile(
-            title: Text("Rólunk"),
+            title: Text("Kapcsolat"),
             leading: IconButton(
               icon: Icon(Icons.contact_page),
               onPressed: () {},
             ),
             onTap: () {
               Navigator.of(context).pop();
-              Navigator.of(context).push(MaterialPageRoute(
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
                   builder: (BuildContext context) => contactPage()));
             },
           ),
@@ -112,8 +113,23 @@ class NavDrawer extends StatelessWidget {
             ),
             onTap: () {
               Navigator.of(context).pop();
-              Navigator.of(context).push(MaterialPageRoute(
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
                   builder: (BuildContext context) => gyikPage()));
+            },
+          ),
+          Divider(
+            color: Colors.grey,
+          ),
+          ListTile(
+            title: Text("Kijelentkezés"),
+            leading: IconButton(
+              icon: Icon(Icons.logout),
+              onPressed: () {},
+            ),
+            onTap: () {
+              Navigator.of(context).pop();
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  builder: (BuildContext context) => LoginScreen()));
             },
           )
         ],
