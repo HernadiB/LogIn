@@ -1,8 +1,8 @@
-import 'package:brb_biliard/fooldal.dart';
+import 'package:brb_biliard/screen/homePage.dart';
 import 'package:brb_biliard/widget/inputTextWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:brb_biliard/loginScreen.dart';
+import 'package:brb_biliard/screen/loginScreen.dart';
 
 class SignUpScreen extends StatefulWidget {
   SignUpScreen() : super();

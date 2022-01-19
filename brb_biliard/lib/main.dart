@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:brb_biliard/loginScreen.dart';
+import 'package:brb_biliard/screen/loginScreen.dart';
 
 void main() {
   runApp(MyApp());
