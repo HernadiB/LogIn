@@ -67,7 +67,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
           width: screenWidth,
           height: screenHeight,
           child: SingleChildScrollView(
-            //controller: controller,
             child: Form(
               key: _formKey,
               child: Column(
@@ -201,7 +200,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     height: 55.0,
                     child: ElevatedButton(
                       onPressed: () async {
-                        if (_formKey.currentState!.validate()) {}
+                        if (_formKey.currentState!.validate()) {
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => FooldalPage()));
+                        }
                       },
                       style: ElevatedButton.styleFrom(
                         primary: Colors.white,
