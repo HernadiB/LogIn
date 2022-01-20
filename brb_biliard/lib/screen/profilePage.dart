@@ -19,7 +19,7 @@ class profilePage extends StatelessWidget {
                 Image(
                   height: MediaQuery.of(context).size.height / 3,
                   fit: BoxFit.cover,
-                  image: const NetworkImage(
+                  image: NetworkImage(
                       'https://images.unsplash.com/photo-1485160497022-3e09382fb310?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTN8fG1vdW50YWluc3xlbnwwfHwwfHw%3D&w=1000&q=80'),
                 ),
                 Positioned(
@@ -29,7 +29,7 @@ class profilePage extends StatelessWidget {
                       backgroundColor: Colors.white,
                       child: CircleAvatar(
                         radius: 75,
-                        backgroundImage: NetworkImage(''),
+                        backgroundColor: Color(0xffCE5D34),
                       ),
                     ))
               ]),
