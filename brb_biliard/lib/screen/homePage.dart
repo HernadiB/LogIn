@@ -1,6 +1,7 @@
 import 'package:brb_biliard/screen/loginScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:brb_biliard/screen/drawer.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class FooldalPage extends StatefulWidget {
   @override
@@ -15,50 +16,77 @@ class _FooldalPage extends State<FooldalPage> {
         title: Text("BRB biliárd főoldal"),
         backgroundColor: const Color(0xffCE5D34),
       ),
-      body: Column(children: <Widget>[
-        SizedBox(
-          height: 30,
-        ),
-        Text(
-          "Elérhetőségek",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-              color: Colors.black, fontWeight: FontWeight.bold, fontSize: 25),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(top: 30),
-        ),
-        Center(
-            child: Column(children: <Widget>[
+      // body: Row(
+      //   children: <Widget> [
+      //   Container(
+      //     child: Text(
+      //       "Üdvözöljük a BRB biliárd klubban",
+            
+      //     ),
+      //   ),
+      //   Container(),
+      //   Container(),
+      //   ],
+      // ),
+      body:Column(
+        children: <Widget>[
+          Padding(padding: EdgeInsets.only(top: 30)),
           Container(
-            margin: EdgeInsets.all(10),
-            child: Table(
-              columnWidths: {
-                0: FlexColumnWidth(2),
-                1: FlexColumnWidth(3),
-              },
-              children: [
-                TableRow(children: [
-                  Column(children: [Text('Nyitvatartás:')]),
-                  Column(children: [Text('H-P 08:00-16:00')]),
-                ]),
-                TableRow(children: [
-                  Column(children: [Text('Címünk:')]),
-                  Column(children: [Text('1144 Budapest, Kerepesi út 124.')]),
-                ]),
-                TableRow(children: [
-                  Column(children: [Text('Telefon:')]),
-                  Column(children: [Text('+36-20-123-4567')]),
-                ]),
-                TableRow(children: [
-                  Column(children: [Text('Email:')]),
-                  Column(children: [Text('nyari.hernadi@biliboc.hu')]),
-                ]),
-              ],
+            height: 50,
+            child: Text(
+              "Üdvözöljük a BRB biliárd klubban",
+              style: TextStyle(
+                fontSize: 32,
+                fontStyle: FontStyle.italic,
+                color: Color(0xffCE5D34),
+              ),
             ),
           ),
-        ])),
-      ]),
+          Padding(padding: EdgeInsets.only(top: 30)),
+          Container(
+            child:
+                  DataTable(
+              columns: [
+                DataColumn(label: Text("Felhasználónév")),
+                DataColumn(label: Text("Foglalás kezd. ideje")),
+                DataColumn(label: Text("Foglalás bef. ideje")),
+              ],
+              rows: [
+                DataRow(cells: [
+                  DataCell(Text("felh1")),
+                  DataCell(Text("2022-01-26 14:00")),
+                  DataCell(Text("2022-01-26 16:00")),
+                ])
+              ]
+            ),
+          ),
+          Padding(padding: EdgeInsets.only(top: 30)),
+          Container(
+            child: TextButton(
+              style: TextButton.styleFrom(
+                padding: EdgeInsets.symmetric(horizontal: 30, vertical: 16),
+                textStyle: TextStyle(fontSize: 14),
+                primary: Color(0xffCE5D34),
+                side: BorderSide(width: 3, color: Color(0xffCE5D34)),
+              ),
+              child: Text("Foglalás törlése"),
+              onPressed: () => Fluttertoast.showToast(
+                msg:"Foglalás törölve"),
+            ),
+          ),
+          Padding(padding: EdgeInsets.only(top: 30)),
+          Container(
+            child: Image(
+              image: AssetImage('images/asset/asztal.jpg'),
+            ),
+          ),
+          Padding(padding: EdgeInsets.only(top: 30)),
+          Container(
+          ),
+        ],
+      ),
+      
+
       drawer: NavDrawer(),
     );
   }
