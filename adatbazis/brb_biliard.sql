@@ -24,28 +24,6 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `admins`
---
-
-DROP TABLE IF EXISTS `admins`;
-CREATE TABLE `admins` (
-  `ID` int(11) NOT NULL,
-  `Username` varchar(255) COLLATE utf8_hungarian_ci DEFAULT NULL,
-  `Password` varchar(255) COLLATE utf8_hungarian_ci DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
-
---
--- A tábla adatainak kiíratása `admins`
---
-
-INSERT INTO `admins` (`ID`, `Username`, `Password`) VALUES
-(1, 'Admin1', 'AdminPW1'),
-(2, 'Admin2', 'AdminPW2'),
-(3, 'Admin3', 'AdminPW3');
-
--- --------------------------------------------------------
-
---
 -- Tábla szerkezet ehhez a táblához `foglalasok`
 --
 
@@ -1222,36 +1200,10 @@ INSERT INTO `idopontok` (`ID`, `From`, `To`) VALUES
 
 -- --------------------------------------------------------
 
---
--- Tábla szerkezet ehhez a táblához `users`
---
-
-DROP TABLE IF EXISTS `users`;
-CREATE TABLE `users` (
-  `ID` int(11) NOT NULL,
-  `Username` varchar(255) COLLATE utf8_hungarian_ci DEFAULT NULL,
-  `Password` varchar(255) COLLATE utf8_hungarian_ci DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
-
---
--- A tábla adatainak kiíratása `users`
---
-
-INSERT INTO `users` (`ID`, `Username`, `Password`) VALUES
-(1, 'User1', 'UserPW1'),
-(2, 'User2', 'UserPW2'),
-(3, 'User3', 'UserPW3');
 
 --
 -- Indexek a kiírt táblákhoz
 --
-
---
--- A tábla indexei `admins`
---
-ALTER TABLE `admins`
-  ADD PRIMARY KEY (`ID`),
-  ADD KEY `Key` (`Username`,`Password`);
 
 --
 -- A tábla indexei `foglalasok`
@@ -1266,22 +1218,11 @@ ALTER TABLE `idopontok`
   ADD PRIMARY KEY (`ID`),
   ADD KEY `Key` (`From`,`To`);
 
---
--- A tábla indexei `users`
---
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`ID`),
-  ADD KEY `Key` (`Username`,`Password`);
 
 --
 -- A kiírt táblák AUTO_INCREMENT értéke
 --
 
---
--- AUTO_INCREMENT a táblához `admins`
---
-ALTER TABLE `admins`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT a táblához `foglalasok`
@@ -1295,12 +1236,6 @@ ALTER TABLE `foglalasok`
 ALTER TABLE `idopontok`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1171;
 
---
--- AUTO_INCREMENT a táblához `users`
---
-ALTER TABLE `users`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
