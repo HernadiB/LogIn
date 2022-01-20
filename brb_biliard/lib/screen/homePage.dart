@@ -80,8 +80,17 @@ class _FooldalPage extends State<FooldalPage> {
               image: AssetImage('images/asset/asztal.jpg'),
             ),
           ),
-          Padding(padding: EdgeInsets.only(top: 30)),
-          Container(
+          Padding(padding: EdgeInsets.only(top: 10)),
+          Column(
+            children: [
+              SizedBox(
+                height: 15,
+              ),
+              ListTile(
+                title: Text("Elérhetőségek"),
+                subtitle: Text("Nyitvatartás: H-V 08:00-16:00\nCímünk: 1144 Budapest, Kerepesi út 124.\nTelefon: +36-20-123-4567\nE-mail: nyari.hernadi@biliboc.hu"),
+              ),
+            ],
           ),
         ],
       ),
