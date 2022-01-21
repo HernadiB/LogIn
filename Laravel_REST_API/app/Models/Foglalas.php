@@ -10,6 +10,7 @@ use App\Models\Idopont;
 class Foglalas extends Model
 {
     protected $table = "foglalasok";
+    public $timestamps = false;
     public function User()
     {
         return $this->hasOne(User::class, "id", "UserID");
