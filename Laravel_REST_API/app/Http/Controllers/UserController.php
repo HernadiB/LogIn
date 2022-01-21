@@ -14,58 +14,93 @@ class UserController extends Controller
     {
         $allidopont = Idopont::all();
         $allidopont_array = $allidopont->toArray();
-        $allidopontjson = json_encode($allidopont_array);
-        return $allidopontjson;
-    }
-
-    public function GetIdopontByDay($yearID, $monthID ,$dayID)
-    {
-        $allidopont = Idopont::all();
-        $allidopont_array = $allidopont->toArray();
+        $allfoglalas = Foglalas::all();
+        $allfoglalas_array = $allfoglalas->toarray();
         $result = [];
-        foreach($allidopont_array as $a)
+        foreach ($allidopont as $idopont)
         {
-            if($a["From"][0] . $a["From"][1] . $a["From"][2] . $a["From"][3] == $yearID)
+            $b = false;
+            foreach ($allfoglalas as $foglalas)
             {
-                if($a["From"][5] . $a["From"][6]  == $monthID)
+                if ($idopont["ID"] == $foglalas["IdopontID"])
                 {
-                    if($a["From"][8] . $a["From"][9] == $dayID)
-                    {
-                        array_push($result, $a);
-                    }
+                    $b = true;
                 }
             }
-
+            if ($b == false)
+            {
+                array_push($result, $idopont);
+            }
         }
         $resultjson = json_encode($result);
         return $resultjson;
     }
 
+    public function GetFoglalasByFoglalasId($foglalasID)
+    {
+        $foglalas = Foglalas::where("ID", $foglalasID)->get();
+        $foglalas_assoc = reset($foglalas);
+        $foglalas_array = reset($foglalas_assoc);
+        $idopontID = $foglalas_array["IdopontID"];
+        $userID = $foglalas_array["UserID"];
+        $idopontok = Idopont::all();
+        $idopont = $idopontok->where("ID", $idopontID);
+        $idopontarray = $idopont->toarray();
+        $idopontreset = reset($idopontarray);
+        $users = User::all();
+        $user = $users->where("id", $userID);
+        $userarray = $user->toarray();
+        $userreset = reset($userarray);
+        $result["From"] = $idopontreset["From"];
+        $result["To"] = $idopontreset["To"];
+        $result["FoglalasID"] = $foglalas_array["ID"];
+        $result["Username"] = $userreset["name"];
+        $resultjson = json_encode($result);
+        return $resultjson;
+    }
+
+    // public function GetIdopontByDay($yearID, $monthID ,$dayID)
+    // {
+    //     $allidopont = Idopont::all();
+    //     $allidopont_array = $allidopont->toArray();
+    //     $result = [];
+    //     foreach($allidopont_array as $a)
+    //     {
+    //         if($a["From"][0] . $a["From"][1] . $a["From"][2] . $a["From"][3] == $yearID)
+    //         {
+    //             if($a["From"][5] . $a["From"][6]  == $monthID)
+    //             {
+    //                 if($a["From"][8] . $a["From"][9] == $dayID)
+    //                 {
+    //                     array_push($result, $a);
+    //                 }
+    //             }
+    //         }
+
+    //     }
+    //     $resultjson = json_encode($result);
+    //     return $resultjson;
+    // }
+
 
     public function AddFoglalas($userID, $idopontID)
     {
+        if (Foglalas::where("UserID", $userID)->exists())
+        {
+            return response(["message" => "Csak egy időpontot foglalhatsz le!"]);
+        }
         $foglalas = new Foglalas;
         $foglalas->UserID = $userID;
         $foglalas->IdopontID = $idopontID;
         $foglalas->save();
-        return $foglalas->id;
+        return response(["message" => "Lefoglalva!", "FoglalasAdatok" => $this->GetFoglalasByFoglalasId($foglalas->id)]);
     }
 
     public function DeleteFoglalas($foglalasID)
     {
         $foglalas = Foglalas::where("ID", $foglalasID);
         $foglalas->delete();
+        return response(["message" => "Törölve!"]);
     }
 
-    public function GetFoglalasByFoglalasId($foglalasID)
-    {
-        $foglalas = Foglalas::where("ID", $foglalasID)->get()->toArray();
-        $foglalas_array = reset($foglalas);
-        dd($foglalas_array);
-        $idopontID = $foglalas["IdopontID"];
-        dd($idopontID);
-        $idopontok = Idopont::all();
-        $idopont = $idopontok->where("ID", $idopontID);
-        return $foglalas;
-    }
 }
