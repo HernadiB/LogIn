@@ -30,9 +30,9 @@ Route::get("/admin/foglalas/{id}", [AdminController::class, "GetFoglalasByUserID
 Route::post("/admin/idopont", [AdminController::class, "AddIdopont"]);
 Route::delete("/admin/idopont", [AdminController::class, "DeleteIdopont"]);
 
-
 Route::post("/admin/registration", [AdminController::class, "AdminRegistration"]);
 Route::post("/admin/login", [AdminController::class, "AdminLogin"]);
+
 
 Route::get("/user/idopont", [UserController::class, "GetAllIdopont"]);
 Route::get("/user/idopont/{year}/{month}/{day}", [UserController::class, "GetIdopontByDay"]);

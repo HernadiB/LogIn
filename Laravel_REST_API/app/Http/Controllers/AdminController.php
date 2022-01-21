@@ -27,10 +27,18 @@ class AdminController extends Controller
 
     public function DeleteUserByID($userID)
     {
-        $foglalas = Foglalas::where("UserID", $userID);
-        $foglalas->delete();
-        $user = User::where("id", $userID);
-        $user->delete();
+        if ((User::where("id", $userID)->exists()))
+        {
+            $foglalas = Foglalas::where("UserID", $userID);
+            $foglalas->delete();
+            $user = User::where("id", $userID);
+            $user->delete();
+            return response(["message" => "Törölve!"]);
+        }
+        else
+        {
+            return response(["message" => "Nincs felhasználó ilyen ID-val!"]);
+        }
     }
 
     public function GetAllFoglalas()
@@ -54,36 +62,60 @@ class AdminController extends Controller
 
     public function DeleteFoglalasByID($foglalasID)
     {
-        $foglalas = Foglalas::where("ID", $foglalasID);
-        $foglalas->delete();
+        if ((Foglalas::where("ID", $foglalasID)->exists()))
+        {
+            $foglalas = Foglalas::where("ID", $foglalasID);
+            $foglalas->delete();
+            return response(["message" => "Törölve!"]);
+        }
+        else
+        {
+            return response(["message" => "Nincs foglalás ilyen ID-val!"]);
+        }
     }
 
     public function GetFoglalasByUserID($userID)
     {
         $users = User::all();
-        $user_coll = $users->where("id", "=", $userID);
-        $user_assoc = reset($user_coll);
-        $user_array = reset($user_assoc);
-        $foglalasok = Foglalas::all();
-        $foglalas_coll = $foglalasok->where("UserID", "=", $userID);
-        $foglalas_assoc = reset($foglalas_coll);
-        $foglalas_array = reset($foglalas_assoc);
-        $idopontid = $foglalas_array["IdopontID"];
-        $idopontok = Idopont::all();
-        $idopont = $idopontok[$idopontid-1];
-        $result["Foglalas_ID"] = $foglalas_array["ID"];
-        $result["User_ID"] = $user_array["id"];
-        $result["Username"] = $user_array["name"];
-        $result["From"] = $idopont["From"];
-        $result["To"] = $idopont["To"];
-        $resultjson = json_encode($result);
-        return $resultjson;
+        if ((User::where("id", $userID)->exists()))
+        {
+            $user_coll = $users->where("id", "=", $userID);
+            $user_assoc = reset($user_coll);
+            $user_array = reset($user_assoc);
+            if ((Foglalas::where("UserID", $userID))->exists())
+            {
+                $foglalasok = Foglalas::all();
+                $foglalas_coll = $foglalasok->where("UserID", "=", $userID);
+                $foglalas_assoc = reset($foglalas_coll);
+                $foglalas_array = reset($foglalas_assoc);
+                $idopontid = $foglalas_array["IdopontID"];
+                $idopontok = Idopont::all();
+                $idopont = $idopontok[$idopontid-1];
+                $result["Foglalas_ID"] = $foglalas_array["ID"];
+                $result["User_ID"] = $user_array["id"];
+                $result["Username"] = $user_array["name"];
+                $result["From"] = $idopont["From"];
+                $result["To"] = $idopont["To"];
+                $resultjson = json_encode($result);
+                return $resultjson;
+            }
+            return response(["message" => "A felhasználónak nincs foglalása!"]);
+        }
+        return response(["message" => "Nincs felhasználó ilyen ID-val!"]);
     }
 
     public function DeleteIdopont(Request $request)
     {
-        $idopont = Idopont::where("From", $request[0])->where("To", $request[1]);
-        $idopont->delete();
+        if ((Idopont::where("From", $request[0])->where("To", $request[1]))->exists())
+        {
+            $idopont = Idopont::where("From", $request[0])->where("To", $request[1]);
+            $idopont->delete();
+            return response(["message" => "Törölve!"]);
+        }
+        else
+        {
+            return response(["message" => "Nincs ilyen időpont az adatbázisban!"]);
+        }
     }
 
     public function AddIdopont(Request $request)
@@ -92,12 +124,13 @@ class AdminController extends Controller
         $idopont->from = $request[0];
         $idopont->to = $request[1];
         $idopont->save();
+        return response(["message" => "Rögzítve!"]);
     }
 
     public function AdminRegistration(Request $request)
     {
         $validatedData = $request->validate([
-            'name' => 'required|max:50',
+            'name' => 'required|max:50|unique:users',
             'email' => 'email|required|unique:users',
             'password' => 'required|confirmed',
             'is_admin' => 'required|boolean'
