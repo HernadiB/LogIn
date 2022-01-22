@@ -24,20 +24,20 @@ Route::get("/admin/users", [AdminController::class, "GetAllUsers"]);
 Route::delete("/admin/users/{id}", [AdminController::class, "DeleteUserByID"]);
 
 Route::get("/admin/foglalas", [AdminController::class, "GetAllFoglalas"]);
-Route::delete("/admin/foglalas/{id}", [AdminController::class, "DeleteFoglalasByID"]);
 Route::get("/admin/foglalas/{id}", [AdminController::class, "GetFoglalasByUserID"]);
+Route::delete("/admin/foglalas/{id}", [AdminController::class, "DeleteFoglalasByID"]);
 
 Route::post("/admin/idopont", [AdminController::class, "AddIdopont"]);
 Route::delete("/admin/idopont", [AdminController::class, "DeleteIdopont"]);
 
-
 Route::post("/admin/registration", [AdminController::class, "AdminRegistration"]);
 Route::post("/admin/login", [AdminController::class, "AdminLogin"]);
 
-Route::get("/user/idopont", [UserController::class, "GetAllIdopont"]);
-Route::get("/user/idopont/{year}/{month}/{day}", [UserController::class, "GetIdopontByDay"]);
 
+Route::get("/user/idopont", [UserController::class, "GetAllIdopont"]);
+// Route::get("/user/idopont/{year}/{month}/{day}", [UserController::class, "GetIdopontByDay"]);
+
+Route::get("/user/foglalas/{foglalasID}", [UserController::class, "GetFoglalasByFoglalasId"]);
 Route::post("/user/foglalas/{userID}/{idopontID}", [UserController::class, "AddFoglalas"]);
 Route::delete("/user/foglalas/{foglalasID}", [UserController::class, "DeleteFoglalas"]);
 
-Route::get("user/foglalas/{foglalasID}", [UserController::class, "GetFoglalasByFoglalasId"]);

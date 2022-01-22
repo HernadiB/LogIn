@@ -22,6 +22,11 @@ function Registration()
     map["password_confirmation"] = password_conf;
     map["is_admin"] = true;
     console.log(JSON.stringify(map));
+    if (username == "" || email == "" || password == "" || password_conf == "")
+    {
+        alert("Tölts ki minden mezőt!");
+        return;
+    }
     fetch('http://localhost:8881/api/admin/registration', {
         method: "POST",
         headers: {
@@ -30,7 +35,6 @@ function Registration()
         body: JSON.stringify(map)
     }).then((response) => response.json())
     .then((data) => {
-        // console.log(data);
         localStorage.setItem("access_token", data.access_token);
         localStorage.setItem("admin_id", data.user.id);
         localStorage.setItem("admin_name", data.user.name);
@@ -40,7 +44,7 @@ function Registration()
     })
     .catch((err) => {
         console.log(err);
-        alert("Valami nem jó! :(");
+        alert("Ellenőrizd a beírt adatokat!");
     })
     
 }
@@ -53,6 +57,11 @@ function Login()
     map["email"] = email;
     map["password"] = password;
     console.log(JSON.stringify(map));
+    if (email == "" || password == "")
+    {
+        alert("Tölts ki minden mezőt!");
+        return;
+    }
     fetch('http://localhost:8881/api/admin/login', {
         method: "POST",
         headers: {
@@ -76,6 +85,6 @@ function Login()
     })
     .catch((err) => {
         console.log(err);
+        alert("Ellenőrizd a beírt adatokat!");
     })
 }
-

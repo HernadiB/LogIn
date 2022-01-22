@@ -375,39 +375,6 @@ function AdminLogout()
     window.location.replace("login.html");
 }
 
-// function func1()
-// {
-//     let a = document.forms["form1"]["label1"].value;
-//     let b = document.forms["form1"]["label2"].value;
-//     let c = document.forms["form1"]["label3"].value;
-//     let d = document.forms["form1"]["label4"].value;
-//     let e = document.forms["form1"]["label5"].value;
-//     if (a == "" || b == "" || c == "" || d == "" || e == "")
-//     {
-//         alert("Hiányzó érték(ek)!");
-//     }
-// }
-// function func2()
-// {
-//     let a = document.forms["form2"]["label6"].value;
-//     let b = document.forms["form2"]["label7"].value;
-//     let c = document.forms["form2"]["label8"].value;
-//     let d = document.forms["form2"]["label9"].value;
-//     let e = document.forms["form2"]["label10"].value;
-//     if (a == "" || b == "" || c == "" || d == "" || e == "")
-//     {
-//         alert("Hiányzó érték(ek)!");
-//     }
-// }
-// function func3()
-// {
-//     let a = document.forms["form3"]["label11"].value;
-//     if (a == "")
-//     {
-//         alert("Hiányzó érték!");
-//     }
-// }
-
 
 async function fetchGetAllFoglalas(){
     let response = await fetch('http://localhost:8881/api/admin/foglalas');
@@ -431,8 +398,18 @@ async function fetchGetAllFoglalas(){
 async function fetchGetFoglalasByUserID(event){
     event.preventDefault();
     let userID = document.querySelector("input#FoglalasKereses").value;
+    if (userID == "")
+    {
+        alert("Töltsd ki a mezőt!");
+        return;
+    }
     let response = await fetch(`http://localhost:8881/api/admin/foglalas/${userID}`);
     let data = await response.json();
+    if (!(data["message"] === undefined))
+    {
+        alert(data["message"]);
+        return;
+    }
     let table = document.querySelector("table#FoglalasKeresesByUserIDTable");
     table.classList.remove("d-none");
     let tr = document.createElement("tr");
@@ -471,6 +448,11 @@ function DeleteUserByID(event)
 {
     event.preventDefault();
     let userID = document.querySelector("input#DeleteUser").value;
+    if (userID == "")
+    {
+        alert("Töltsd ki a mezőt!");
+        return;
+    }
     fetch(`http://localhost:8881/api/admin/users/${userID}`, {
         method: "DELETE",
         headers: {
@@ -478,7 +460,15 @@ function DeleteUserByID(event)
             // "Authorization": "Bearer " + localStorage.getItem("access_token")
         }
     }).then((res) => res.json())
-    .then((data) => console.log(data))
+    .then((data) =>
+    {
+        console.log(data);
+        if (!(data["message"] === undefined))
+        {
+            alert(data["message"]);
+            return;
+        }
+    })
     .catch((err) => console.log(err))
 }
 
@@ -486,6 +476,11 @@ function DeleteFoglalasByID(event)
 {
     event.preventDefault();
     let foglalasID = document.querySelector("input#DeleteFoglalas").value;
+    if (foglalasID == "")
+    {
+        alert("Töltsd ki a mezőt!");
+        return;
+    }
     fetch(`http://localhost:8881/api/admin/foglalas/${foglalasID}`, {
         method: "DELETE",
         headers: {
@@ -493,7 +488,15 @@ function DeleteFoglalasByID(event)
             // "Authorization": "Bearer " + localStorage.getItem("access_token")
         }
     }).then((res) => res.json())
-    .then((data) => console.log(data))
+    .then((data) =>
+    {
+        console.log(data);
+        if (!(data["message"] === undefined))
+        {
+            alert(data["message"]);
+            return;
+        }
+    })
     .catch((err) => console.log(err))
 }
 
@@ -505,6 +508,21 @@ function DeleteIdopont(event)
     let day = document.querySelector("input#IdopontTorlesInput3").value;
     let from = document.querySelector("input#IdopontTorlesInput4").value;
     let to = document.querySelector("input#IdopontTorlesInput5").value;
+    if (month.length != 2 || day.length != 2 || from.length != 2 || to.length != 2)
+    {
+        alert("Figyelj a formátumra! Ha 1 számot adsz meg, rakj elé egy nullát! (Pl. '05')");
+        return;
+    }
+    if (year < 2022 || year > 2030 || month < 1 || month > 12 || day < 1 || day > 31 || from < 0 || from > 23 || to < 0 || to > 23)
+    {
+        alert("Helytelen dátumot adtál meg!");
+        return;
+    }
+    if (to-from != 1)
+    {
+        alert("Csak 1 órás intervallumot adhatsz meg!");
+        return;
+    }
     let datetimefrom = year.concat("-", month, "-", day, " ", from, ":00:00");
     let datetimeto = year.concat("-", month, "-", day, " ", to, ":00:00");
     let array = new Array();
@@ -518,7 +536,15 @@ function DeleteIdopont(event)
         },
         body: JSON.stringify(array)
     }).then((res) => res.json())
-    .then((data) => console.log(data))
+    .then((data) =>
+    {
+        console.log(data);
+        if (!(data["message"] === undefined))
+        {
+            alert(data["message"]);
+            return;
+        }
+    })
     .catch((err) => console.log(err))
 }
 
@@ -530,6 +556,16 @@ function AddIdopont(event)
     let day = document.querySelector("input#IdopontFelvetelInput3").value;
     let from = document.querySelector("input#IdopontFelvetelInput4").value;
     let to = document.querySelector("input#IdopontFelvetelInput5").value;
+    if (month.length != 2 || day.length != 2 || from.length != 2 || to.length != 2)
+    {
+        alert("Figyelj a formátumra! Ha 1 számot adsz meg, rakj elé egy nullát! (Pl. '05')");
+        return;
+    }
+    if (year < 2022 || year > 2030 || month < 1 || month > 12 || day < 1 || day > 31 || from < 0 || from > 23 || to < 0 || to > 23)
+    {
+        alert("Helytelen dátumot adtál meg!");
+        return;
+    }
     if (to-from != 1)
     {
         alert("Csak 1 órás intervallumot adhatsz meg!");
@@ -548,6 +584,14 @@ function AddIdopont(event)
         },
         body: JSON.stringify(array)
     }).then((res) => res.json())
-    .then((data) => console.log(data))
+    .then((data) =>
+    {
+        console.log(data);
+        if (!(data["message"] === undefined))
+        {
+            alert(data["message"]);
+            return;
+        }
+    })
     .catch((err) => console.log(err))
 }

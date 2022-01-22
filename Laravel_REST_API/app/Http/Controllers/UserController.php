@@ -106,7 +106,7 @@ class UserController extends Controller
     public function UserRegistration(Request $request)
     {
         $validatedData = $request->validate([
-            'name' => 'required|max:50',
+            'name' => 'required|max:50|unique:users',
             'email' => 'email|required|unique:users',
             'password' => 'required|confirmed',
             'is_admin' => 'required|boolean'
@@ -114,11 +114,11 @@ class UserController extends Controller
 
         $validatedData['password'] = bcrypt($request->password);
         
-        $admin = User::create($validatedData);
+        $user = User::create($validatedData);
 
-        $accessToken = $admin->createToken('authToken')->accessToken;
+        $accessToken = $user->createToken('authToken')->accessToken;
 
-        return response(['user' => $admin, 'access_token' => $accessToken]);
+        return response(['user' => $user, 'access_token' => $accessToken]);
     }
 
     public function UserLogin(Request $request)
@@ -132,9 +132,6 @@ class UserController extends Controller
         {
             return response(["message" => "Hibás adatok"]);
         }
-
-        $user_assoc = User::where('email', $request->email)->get()->toarray();
-        $user = reset($user_assoc);
 
         $accessToken = auth()->user()->createToken('authToken')->accessToken;
         
