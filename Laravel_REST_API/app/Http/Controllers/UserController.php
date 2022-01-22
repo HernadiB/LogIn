@@ -68,4 +68,22 @@ class UserController extends Controller
         $idopont = $idopontok->where("ID", $idopontID);
         return $foglalas;
     }
+
+    public function UserRegistration(Request $request)
+    {
+        $validatedData = $request->validate([
+            'name' => 'required|max:50',
+            'email' => 'email|required|unique:users',
+            'password' => 'required|confirmed',
+            'is_admin' => 'required|boolean'
+        ]);
+
+        $validatedData['password'] = bcrypt($request->password);
+
+        $admin = User :: create($validatedData);
+
+        $accessToken = admin->createToken('authToken')->accessToken;
+
+        return response(['user' => $admin, 'access_token' => $accessToken]);
+    }
 }
