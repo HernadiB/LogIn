@@ -121,4 +121,24 @@ class UserController extends Controller
         return response(['user' => $admin, 'access_token' => $accessToken]);
     }
 
+    public function UserLogin(Request $request)
+    {
+        $loginData = $request->validate([
+            'email' => 'email|required',
+            'password' => 'required'
+        ]);
+
+        if(!auth()->attempt($loginData))
+        {
+            return response(["message" => "Hibás adatok"]);
+        }
+
+        $user_assoc = User::where('email', $request->email)->get()->toarray();
+        $user = reset($user_assoc);
+
+        $accessToken = auth()->user()->createToken('authToken')->accessToken;
+        
+        return response(['user' => auth()->user(), 'access_token' => $accessToken]);
+    }
+
 }
