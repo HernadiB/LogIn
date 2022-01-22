@@ -1,7 +1,11 @@
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:brb_biliard/screen/drawer.dart';
+import 'package:brb_biliard/screen/eventdatasource.dart';
+import 'package:brb_biliard/screen/eventprovider.dart';
+import 'package:brb_biliard/widget/taskwidget.dart';
+import 'package:flutter/material.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart';
+import 'package:brb_biliard/screen/eventeditingPage.dart';
+import 'package:provider/provider.dart';
 
 class bookPage extends StatefulWidget {
   @override
@@ -11,73 +15,44 @@ class bookPage extends StatefulWidget {
 class _bookPageState extends State<bookPage> {
   CalendarController _calendarController = CalendarController();
 
+  @override
   void initState() {
     super.initState();
     WidgetsBinding.instance!.addPostFrameCallback((_) {});
   }
 
-  Map<String, dynamic> encodeMap(Map<DateTime, dynamic> map) {
-    Map<String, dynamic> newMap = {};
-    map.forEach((key, value) {
-      newMap[key.toString()] = map[key];
-    });
-    return newMap;
-  }
-
-  Map<DateTime, dynamic> dencodeMap(Map<String, dynamic> map) {
-    Map<DateTime, dynamic> newMap = {};
-    map.forEach((key, value) {
-      newMap[DateTime.parse(key)] = map[key];
-    });
-    return newMap;
-  }
-
   @override
   Widget build(BuildContext context) {
+    final events = Provider.of<EventProvider>(context).events;
     return new Scaffold(
-        appBar: AppBar(
-          title: Text("BRB biliárd időpont foglalás"),
-          backgroundColor: const Color(0xffCE5D34),
-        ),
-        drawer: NavDrawer(),
-        body: SfCalendar(
-          view: CalendarView.week,
+      appBar: AppBar(
+        title: Text("BRB biliárd időpont foglalás"),
+        backgroundColor: const Color(0xffCE5D34),
+      ),
+      body: SfCalendar(
+          onLongPress: (details) {
+            final provider = Provider.of<EventProvider>(context, listen: false);
+
+            provider.setDate(details.date!);
+            showModalBottomSheet(
+                context: context, builder: (context) => TaskWidget());
+          },
+          view: CalendarView.month,
+          dataSource: EventDataSource(events),
           controller: _calendarController,
           firstDayOfWeek: 1,
           initialDisplayDate: DateTime.now(),
-          initialSelectedDate: DateTime.now(),
-          dataSource: BookDataSource(
-            getAppointments(),
+          initialSelectedDate: DateTime.now()),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add, color: Colors.white),
+        backgroundColor: Colors.red,
+        onPressed: () => Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => EventEditingPage(),
           ),
         ),
-        floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.add),
-          onPressed: () {},
-        ));
-  }
-}
-
-List<Appointment> getAppointments() {
-  List<Appointment> appoint = <Appointment>[];
-  final DateTime today = DateTime.now();
-  final DateTime startTime =
-      DateTime(today.year, today.month, today.day, 8, 0, 0);
-  final DateTime endTime = startTime.add(const Duration(hours: 2));
-
-  appoint.add(Appointment(
-    startTime: startTime,
-    endTime: endTime,
-    subject: 'BRB biliárd',
-    color: Colors.blue,
-    // isAllDay: true,
-    // recurrenceRule: 'FREQ=DAILY;COUNT=10'
-  ));
-
-  return appoint;
-}
-
-class BookDataSource extends CalendarDataSource {
-  BookDataSource(List<Appointment> source) {
-    appointments = source;
+      ),
+      drawer: NavDrawer(),
+    );
   }
 }

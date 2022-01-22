@@ -44,7 +44,8 @@ dependencies:
   flutter_custom_clippers: ^2.0.0
   lottie: ^1.2.1
   font_awesome_flutter: ^9.2.0
-  syncfusion_flutter_calendar: ^19.4.43
+  syncfusion_flutter_calendar: ^19.1.59
+  provider: ^5.0.0
   # table_calendar: ^2.2.1
 
   # The following adds the Cupertino Icons font to your application.
