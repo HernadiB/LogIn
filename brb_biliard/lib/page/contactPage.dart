@@ -4,9 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:brb_biliard/screen/drawer.dart';
 
 class contactPage extends StatelessWidget {
-  @override
-  final _formKey = GlobalKey<FormState>();
-
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;

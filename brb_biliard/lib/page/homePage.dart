@@ -1,4 +1,3 @@
-import 'package:brb_biliard/screen/loginScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:brb_biliard/screen/drawer.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -21,14 +20,14 @@ class _FooldalPage extends State<FooldalPage> {
       //   Container(
       //     child: Text(
       //       "Üdvözöljük a BRB biliárd klubban",
-            
+
       //     ),
       //   ),
       //   Container(),
       //   Container(),
       //   ],
       // ),
-      body:Column(
+      body: Column(
         children: <Widget>[
           Padding(padding: EdgeInsets.only(top: 30)),
           Container(
@@ -44,21 +43,17 @@ class _FooldalPage extends State<FooldalPage> {
           ),
           Padding(padding: EdgeInsets.only(top: 30)),
           Container(
-            child:
-                  DataTable(
-              columns: [
-                DataColumn(label: Text("Felhasználónév")),
-                DataColumn(label: Text("Foglalás kezd. ideje")),
-                DataColumn(label: Text("Foglalás bef. ideje")),
-              ],
-              rows: [
-                DataRow(cells: [
-                  DataCell(Text("felh1")),
-                  DataCell(Text("2022-01-26 14:00")),
-                  DataCell(Text("2022-01-26 16:00")),
-                ])
-              ]
-            ),
+            child: DataTable(columns: [
+              DataColumn(label: Text("Felhasználónév")),
+              DataColumn(label: Text("Foglalás kezd. ideje")),
+              DataColumn(label: Text("Foglalás bef. ideje")),
+            ], rows: [
+              DataRow(cells: [
+                DataCell(Text("felh1")),
+                DataCell(Text("2022-01-26 14:00")),
+                DataCell(Text("2022-01-26 16:00")),
+              ])
+            ]),
           ),
           Padding(padding: EdgeInsets.only(top: 30)),
           Container(
@@ -70,8 +65,7 @@ class _FooldalPage extends State<FooldalPage> {
                 side: BorderSide(width: 3, color: Color(0xffCE5D34)),
               ),
               child: Text("Foglalás törlése"),
-              onPressed: () => Fluttertoast.showToast(
-                msg:"Foglalás törölve"),
+              onPressed: () => Fluttertoast.showToast(msg: "Foglalás törölve"),
             ),
           ),
           Padding(padding: EdgeInsets.only(top: 30)),
@@ -88,13 +82,13 @@ class _FooldalPage extends State<FooldalPage> {
               ),
               ListTile(
                 title: Text("Elérhetőségek"),
-                subtitle: Text("Nyitvatartás: H-V 08:00-16:00\nCímünk: 1144 Budapest, Kerepesi út 124.\nTelefon: +36-20-123-4567\nE-mail: nyari.hernadi@biliboc.hu"),
+                subtitle: Text(
+                    "Nyitvatartás: H-V 08:00-16:00\nCímünk: 1144 Budapest, Kerepesi út 124.\nTelefon: +36-20-123-4567\nE-mail: nyari.hernadi@biliboc.hu"),
               ),
             ],
           ),
         ],
       ),
-      
 
       drawer: NavDrawer(),
     );

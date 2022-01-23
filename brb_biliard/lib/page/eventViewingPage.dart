@@ -1,8 +1,5 @@
 import 'package:brb_biliard/config/event.dart';
-import 'package:brb_biliard/screen/eventprovider.dart';
-import 'package:brb_biliard/screen/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class EventViewingPage extends StatelessWidget {
   final Event event;
