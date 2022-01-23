@@ -1,6 +1,6 @@
 import 'package:brb_biliard/screen/eventdatasource.dart';
 import 'package:brb_biliard/screen/eventprovider.dart';
-import 'package:brb_biliard/screen/eventviewingPage.dart';
+import 'package:brb_biliard/page/eventViewingPage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';

@@ -4,7 +4,7 @@ import 'package:brb_biliard/screen/eventprovider.dart';
 import 'package:brb_biliard/widget/taskwidget.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
-import 'package:brb_biliard/screen/eventeditingPage.dart';
+import 'package:brb_biliard/page/eventEditingPage.dart';
 import 'package:provider/provider.dart';
 
 class bookPage extends StatefulWidget {

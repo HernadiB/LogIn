@@ -1,4 +1,4 @@
-import 'package:brb_biliard/screen/homePage.dart';
+import 'package:brb_biliard/page/homePage.dart';
 import 'package:brb_biliard/widget/inputTextWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:brb_biliard/screen/drawer.dart';

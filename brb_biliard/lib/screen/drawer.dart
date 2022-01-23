@@ -1,9 +1,9 @@
-import 'package:brb_biliard/screen/bookPage.dart';
-import 'package:brb_biliard/screen/contactPage.dart';
-import 'package:brb_biliard/screen/homePage.dart';
-import 'package:brb_biliard/screen/gyikPage.dart';
+import 'package:brb_biliard/page/bookPage.dart';
+import 'package:brb_biliard/page/contactPage.dart';
+import 'package:brb_biliard/page/homePage.dart';
+import 'package:brb_biliard/page/gyikPage.dart';
 import 'package:brb_biliard/screen/loginScreen.dart';
-import 'package:brb_biliard/screen/profilePage.dart';
+import 'package:brb_biliard/page/profilePage.dart';
 import 'package:flutter/material.dart';
 
 class NavDrawer extends StatelessWidget {
