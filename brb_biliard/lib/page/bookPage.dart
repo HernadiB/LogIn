@@ -30,22 +30,23 @@ class _bookPageState extends State<bookPage> {
         backgroundColor: const Color(0xffCE5D34),
       ),
       body: SfCalendar(
-          onLongPress: (details) {
-            final provider = Provider.of<EventProvider>(context, listen: false);
+        onLongPress: (details) {
+          final provider = Provider.of<EventProvider>(context, listen: false);
 
-            provider.setDate(details.date!);
-            showModalBottomSheet(
-                context: context, builder: (context) => TaskWidget());
-          },
-          view: CalendarView.month,
-          dataSource: EventDataSource(events),
-          controller: _calendarController,
-          firstDayOfWeek: 1,
-          initialDisplayDate: DateTime.now(),
-          initialSelectedDate: DateTime.now()),
+          provider.setDate(details.date!);
+          showModalBottomSheet(
+              context: context, builder: (context) => TaskWidget());
+        },
+        view: CalendarView.month,
+        dataSource: EventDataSource(events),
+        controller: _calendarController,
+        firstDayOfWeek: 1,
+        initialDisplayDate: DateTime.now(),
+        initialSelectedDate: DateTime.now(),
+      ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add, color: Colors.white),
-        backgroundColor: Colors.red,
+        backgroundColor: Color(0xffCE5D34),
         onPressed: () => Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) => EventEditingPage(),

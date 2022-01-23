@@ -94,7 +94,8 @@ class _EventEditingPageState extends State<EventEditingPage> {
   Widget buildDateTimePickers() => Column(
         children: [
           buildFrom(),
-          buildTo(),
+          // buildTo(),
+          Text("Csak 2 órás időintervallum foglalható"),
         ],
       );
 
